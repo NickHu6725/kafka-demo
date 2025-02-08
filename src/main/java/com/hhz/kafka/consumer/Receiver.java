@@ -3,6 +3,7 @@ package com.hhz.kafka.consumer;
 import java.util.concurrent.CountDownLatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 
 public class Receiver {
@@ -16,7 +17,7 @@ public class Receiver {
     return latch;
   }
 
-  @KafkaListener(topics = "helloworld.t")
+  @KafkaListener(topics = "${spring.kafka.consumer.topic}")
   public void receive(String payload) {
     LOGGER.info("received payload='{}'", payload);
     latch.countDown();

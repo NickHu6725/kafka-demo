@@ -18,7 +18,7 @@ import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 @EnableKafka
 public class ReceiverConfig {
 
-  @Value("${kafka.bootstrap-servers}")
+  @Value("${spring.kafka.consumer.bootstrap-servers}")
   private String bootstrapServers;
 
   @Bean
@@ -32,7 +32,7 @@ public class ReceiverConfig {
     props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
         StringDeserializer.class);
     // allows a pool of processes to divide the work of consuming and processing records
-    props.put(ConsumerConfig.GROUP_ID_CONFIG, "helloworld");
+    props.put(ConsumerConfig.GROUP_ID_CONFIG, "kafka-demo");
     // automatically reset the offset to the earliest offset
     props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 

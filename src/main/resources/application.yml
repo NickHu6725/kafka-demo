@@ -5,13 +5,18 @@ spring:
   kafka:
     consumer:
       bootstrap-servers: 192.168.174.141:9092,192.168.174.142:9092,192.168.174.128:9092
-      # 配置消费者消息offset是否自动重置(消费者重连会能够接收最开始的消息)
-      auto-offset-reset: earliest
+      group-id: my-consumer-group  # 消费者组ID
+      auto-offset-reset: earliest    # 从最早偏移量开始消费
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      enable-auto-commit: true      # 自动提交偏移量
+      # 高级配置
+      max-poll-records: 500         # 单次拉取最大记录数
+      topic: TEST_TOPIC
     producer:
-      bootstrap-servers: 192.168.174.141:9092,192.168.174.142:9092,192.168.174.128:9092
-      # 发送的对象信息变为json格式
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-kafka:
-  topic:
-    my-topic: my-topic
-    my-topic2: my-topic2
+      # 可选高级配置
+      acks: all
+      retries: 3
+      bootstrap-servers: 192.168.174.141:9092,192.168.174.142:9092,192.168.174.128:9092
